@@ -27,6 +27,7 @@ io.on("connection", (socket) => {
 
   socket.on("message", (msg) => {
     console.log(`${id}: ${msg}`);
+    io.emit("message", { id, msg });
   });
 });
 
