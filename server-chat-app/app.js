@@ -25,9 +25,9 @@ io.on("connection", (socket) => {
   const { id } = socket.client;
   console.log(`User connected: ${id}`);
 
-  socket.on("message", (msg) => {
-    console.log(`${id}: ${msg}`);
-    io.emit("message", { id, msg });
+  socket.on("message", ({ nickname, text }) => {
+    console.log(`${id}: ${nickname} : ${text}`);
+    io.emit("message", { nickname, text });
   });
 });
 
