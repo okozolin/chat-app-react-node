@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import io from "socket.io-client";
+import { Container } from "@material-ui/core";
 import Join from "./components/Join";
 
 let socket;
@@ -30,9 +31,9 @@ function App() {
     const _text = e.target.value;
     setText(_text);
   };
-  const handleNicknameChange = (e) => {
-    const _nickname = e.target.value;
-    setNickname(_nickname);
+  const handleNicknameChange = (data) => {
+    setNickname(data);
+    console.log("nickname is:", nickname);
   };
 
   const handleMessageSubmit = () => {
@@ -53,15 +54,27 @@ function App() {
   );
 
   return (
-    <div>
-      <span>Nickname</span>
-      <input onChange={handleNicknameChange} value={nickname} />
-      <span>Message</span>
-      <input onChange={handleTextChange} value={text} />
-      {/* <input onChange={handleTextChange} value={text} /> */}
-      <button onClick={handleMessageSubmit}>Send</button>
-      {renderChat}
-    </div>
+    <Container
+      maxWidth="sm"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        alignContent: "center",
+      }}
+    >
+      <Join handler={handleNicknameChange} />
+      Nickname: {nickname}
+      <div>
+        {/* <span>Nickname</span>
+      <input onChange={handleNicknameChange} value={nickname} /> */}
+        <span>Message</span>
+        <input onChange={handleTextChange} value={text} />
+        {/* <input onChange={handleTextChange} value={text} /> */}
+        <button onClick={handleMessageSubmit}>Send</button>
+        {renderChat}
+      </div>
+    </Container>
   );
 }
 
