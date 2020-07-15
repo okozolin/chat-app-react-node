@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
 import { Button, Paper, InputBase } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -22,23 +24,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Join = (props) => {
   const classes = useStyles();
-  const [text, setText] = useState("");
+  // const [text, setText] = useState("");
   const [nickname, setNickname] = useState("");
 
-  // update parent component when nickname set
-  useEffect(() => {
-    if (props.handler) {
-      props.handler(nickname);
-    }
-  }, [nickname]);
+  // // update parent component when nickname set
+  // useEffect(() => {
+  //   if (props.handler) {
+  //     props.handler(nickname);
+  //   }
+  // }, [nickname]);
 
-  const handleOnClick = (e) => {
-    setNickname(text);
-    console.log(`${nickname} -- clicked to join the chat`);
-  };
+  // const handleOnClick = (e) => {
+  //   setNickname(text);
+  //   console.log(`${nickname} -- clicked to join the chat`);
+  // };
 
   const handleOnChange = (e) => {
-    setText(e.target.value);
+    setNickname(e.target.value);
   };
 
   return (
@@ -51,13 +53,17 @@ const Join = (props) => {
           onChange={handleOnChange}
         />
       </Paper>
-      <Button
-        variant="contained"
-        onClick={handleOnClick}
-        style={{ backgroundColor: "#DA0063", marginTop: "15px" }}
+      <Link
+        onClick={(e) => (!nickname ? e.preventDefault() : null)}
+        to={`/chat?name=${nickname}`}
       >
-        Join
-      </Button>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#DA0063", marginTop: "15px" }}
+        >
+          Join
+        </Button>
+      </Link>
     </>
   );
 };

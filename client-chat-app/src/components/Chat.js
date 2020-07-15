@@ -7,23 +7,23 @@ let socket;
 
 const Chat = ({ location }) => {
   const [nickname, setNickname] = useState("");
-  const [room, setRoom] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const ENDPOINT = "http://localhost:3002";
 
   // handling users joining chat
   useEffect(() => {
-    const { name, room } = queryString.parse(location.search);
+    const { name } = queryString.parse(location.search);
     console.log("name", name);
     socket = io(ENDPOINT);
+
     setNickname(name);
 
     socket.on("connect", function () {
       console.log("Connected socket");
     });
 
-    socket.emit("join", { nickname }, (error) => {
+    socket.emit("join", { nickname, room: "default" }, (error) => {
       console.log("nickname", nickname);
 
       if (error) {
@@ -59,42 +59,42 @@ const Chat = ({ location }) => {
 
   console.log("message & messages", message, messages);
   return (
-    // <Container
-    //   maxWidth="sm"
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     alignItems: "center",
-    //     alignContent: "center",
-    //   }}
-    // >
-    //   <InputBase
-    //     placeholder="Type your thoughts here...."
-    //     inputProps={{ "aria-label": "join chat" }}
-    //     onChange={(e) => setMessage(e.target.value)}
-    //     onKeyPress={(e) => (e.key === "Enter" ? handleMessageSubmit(e) : null)}
-    //     value={message}
-    //   />
-    //   <Button
-    //     variant="contained"
-    //     style={{ backgroundColor: "#2D9BF0", marginTop: "15px" }}
-    //   >
-    //     Send
-    //   </Button>
-    // </Container>
+    <Container
+      maxWidth="sm"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        alignContent: "center",
+      }}
+    >
+      <InputBase
+        placeholder="Type your thoughts here...."
+        inputProps={{ "aria-label": "join chat" }}
+        onChange={(e) => setMessage(e.target.value)}
+        onKeyPress={(e) => (e.key === "Enter" ? handleMessageSubmit(e) : null)}
+        value={message}
+      />
+      <Button
+        variant="contained"
+        style={{ backgroundColor: "#2D9BF0", marginTop: "15px" }}
+      >
+        Send
+      </Button>
+    </Container>
 
-    <div>
-      <div>
-        <input
-          placeholder="Type your thoughts here...."
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={(e) =>
-            e.key === "Enter" ? handleMessageSubmit(e) : null
-          }
-          value={message}
-        />
-      </div>
-    </div>
+    // <div>
+    //   <div>
+    //     <input
+    //       placeholder="Type your thoughts here...."
+    //       onChange={(e) => setMessage(e.target.value)}
+    //       onKeyPress={(e) =>
+    //         e.key === "Enter" ? handleMessageSubmit(e) : null
+    //       }
+    //       value={message}
+    //     />
+    //   </div>
+    // </div>
   );
 };
 
