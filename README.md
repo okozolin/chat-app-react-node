@@ -8,9 +8,10 @@
 
 ## App Functional requirenments
 
-<u>Basic functionality </u>
+<U>Basic functionality </U>
 
 A public chat room where users log in with a nickname and go straight to the chat. They will:
+
 ● send messages to the public chat room
 
 ● see the last 10 messages (prior to the connection / entering the public chat room)
@@ -19,7 +20,7 @@ A public chat room where users log in with a nickname and go straight to the cha
 
 ● each user would have an random colored avatar by his message in the chat.
 
-<u>UX/UI </u>
+<U>UX/UI </U>
 
 ● The design should be responsive and fill the
 available screen space (i.e. stretched layout not boxed layout).
@@ -67,9 +68,9 @@ npm start
 
 - ports
 
-Client: http://localhost:3000
+  Client: http://localhost:3000
 
-Server: http://localhost:3002
+  Server: http://localhost:3002
 
 ### <b>Production mode</b>
 
