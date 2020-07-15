@@ -2,10 +2,32 @@ import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import { Container, InputBase, Button } from "@material-ui/core";
+import Messages from "./Messages";
+import InputMsg from "./InputMsg";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#9bcac5",
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    backgroundColor: "#9bcac5",
+    // height: "100vh",
+  },
+}));
 
 let socket;
 
 const Chat = ({ location }) => {
+  const classes = useStyles();
+
   const [nickname, setNickname] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -41,59 +63,31 @@ const Chat = ({ location }) => {
   // handling messages in chat
   useEffect(() => {
     socket.on("message", (message) => {
-      setMessages((messages) => [...messages, message]);
+      setMessages([...messages, message]);
     });
   });
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
+    console.log("inside handleMessageSubmit message", message);
+
     if (message) {
       console.log("inside handleMessageSubmit ");
       socket.emit("msgSend", message, () => setMessage(""));
     }
   };
 
-  //   console.log("message & messages", message, messages);
   return (
-    <Container
-      maxWidth="sm"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        alignContent: "center",
-      }}
-    >
-      <InputBase
-        placeholder="Type your thoughts here...."
-        inputProps={{ "aria-label": "join chat" }}
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-        onKeyPress={(e) => (e.key === "Enter" ? handleMessageSubmit(e) : null)}
-        value={message}
-      />
-      <Button
-        variant="contained"
-        style={{ backgroundColor: "#2D9BF0", marginTop: "15px" }}
-        onClick={(e) => handleMessageSubmit(e)}
-      >
-        Send
-      </Button>
+    <Container className={classes.wrapper}>
+      <Container className={classes.container}>
+        <Messages messages={messages} nickname={nickname} />
+        <InputMsg
+          message={message}
+          setMessage={setMessage}
+          sendMessage={handleMessageSubmit}
+        />
+      </Container>
     </Container>
-
-    // <div>
-    //   <div>
-    //     <input
-    //       placeholder="Type your thoughts here...."
-    //       onChange={(e) => setMessage(e.target.value)}
-    //       onKeyPress={(e) =>
-    //         e.key === "Enter" ? handleMessageSubmit(e) : null
-    //       }
-    //       value={message}
-    //     />
-    //   </div>
-    // </div>
   );
 };
 

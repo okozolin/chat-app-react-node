@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SendIcon from "@material-ui/icons/Send";
 import { Paper, InputBase, IconButton, Container } from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
