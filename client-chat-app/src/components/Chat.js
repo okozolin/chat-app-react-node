@@ -78,6 +78,7 @@ const Chat = ({ location }) => {
       <Button
         variant="contained"
         style={{ backgroundColor: "#2D9BF0", marginTop: "15px" }}
+        onClick={(e) => handleMessageSubmit(e)}
       >
         Send
       </Button>
