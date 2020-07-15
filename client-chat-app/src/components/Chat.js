@@ -41,23 +41,19 @@ const Chat = ({ location }) => {
   // handling messages in chat
   useEffect(() => {
     socket.on("message", (message) => {
-      console.log("message & messages1", message, messages);
-
       setMessages((messages) => [...messages, message]);
-      console.log("message & messages2", message, messages);
     });
-  }, [messages]);
+  });
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-
     if (message) {
-      console.log("inside handleMessageSubmit ", message);
+      console.log("inside handleMessageSubmit ");
       socket.emit("msgSend", message, () => setMessage(""));
     }
   };
 
-  console.log("message & messages", message, messages);
+  //   console.log("message & messages", message, messages);
   return (
     <Container
       maxWidth="sm"
@@ -71,7 +67,9 @@ const Chat = ({ location }) => {
       <InputBase
         placeholder="Type your thoughts here...."
         inputProps={{ "aria-label": "join chat" }}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => {
+          setMessage(e.target.value);
+        }}
         onKeyPress={(e) => (e.key === "Enter" ? handleMessageSubmit(e) : null)}
         value={message}
       />

@@ -3,12 +3,14 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
 const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
+const cors = require("cors");
 
 const { addUser, removeUser, getUser } = require("./helpers/users");
 
@@ -22,11 +24,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(cors());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 io.on("connection", (socket) => {
-  const { id } = socket.client;
+  // const { id } = socket.client;
+  const id = socket.id;
   console.log(`User connected: ${id}`);
 
   // user joined the chat
@@ -37,17 +41,24 @@ io.on("connection", (socket) => {
     if (error) return callback({ error });
 
     socket.join(user.room);
+    console.log(`${nickname} - joined room --${user.room}`);
 
     // welcomes user to the chat
     socket.emit("message", {
       user: "admin",
       text: `${user.nickname}, welcome to the chat.`,
     });
+    console.log(`sending welcome message to ${user.nickname}`);
+
     // informing averybody else except the user that a new user has joined the chat
     socket.broadcast.to(user.room).emit("message", {
       user: "admin",
       text: `${user.nickname} has joined!`,
     });
+    console.log(
+      `welcome message to everyone that - ${nickname} - joined room --${user.room}`
+    );
+
     callback();
   });
 
