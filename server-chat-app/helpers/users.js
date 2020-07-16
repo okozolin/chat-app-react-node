@@ -8,7 +8,7 @@ const addUser = ({ id, nickname, room, color }) => {
   );
 
   if (existingUser) {
-    return { error: "Nickname already taken" };
+    return { error: `'${nickname}' nickname is already taken` };
   }
 
   const user = { id, nickname, room, color };

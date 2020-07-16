@@ -11,18 +11,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    // height: "100vh",
     backgroundColor: "#9bcac5",
   },
   container: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor: "#9bcac5",
-    // height: "100vh",
+    marginTop: "20px",
   },
   scroll: {
-    height: "91vh",
+    height: "89vh",
     overflowY: "scroll",
   },
 }));
@@ -40,7 +38,6 @@ const Chat = ({ location }) => {
   // handling users joining chat
   useEffect(() => {
     const { name } = queryString.parse(location.search);
-    console.log("name", name);
     socket = io(ENDPOINT);
 
     setNickname(name);
@@ -52,7 +49,7 @@ const Chat = ({ location }) => {
     socket.emit("join", { nickname, room: "default" }, (error) => {
       console.log("nickname joined 'join'", nickname);
       if (error) {
-        alert(error);
+        alert(error.error);
       }
     });
 
@@ -71,14 +68,11 @@ const Chat = ({ location }) => {
     socket.on("message", (msg) => {
       setMessages((messages) => [...messages, msg]);
     });
-    console.log("inside useEffect- messages: ", messages);
   }, [socket]);
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
-    console.log("inside handleMessageSubmit message", message);
     if (message) {
-      console.log("inside handleMessageSubmit ", message);
       socket.emit("msgSend", message, () => setMessage(""));
     }
   };

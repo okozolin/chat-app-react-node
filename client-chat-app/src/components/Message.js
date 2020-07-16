@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper, Avatar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Moment from "react-moment";
 // import ReactEmoji from 'react-emoji';
 
 const useStyles = makeStyles((theme) => ({
@@ -79,12 +80,23 @@ const Message = ({ message: { text, user, color, time }, nickname }) => {
     isSentByCurrentUser = true;
   }
 
+  const calendarStrings = {
+    lastDay: "[Yesterday at] LT",
+    sameDay: "[Today at] LT",
+    nextDay: "[Tomorrow at] LT",
+    lastWeek: "[last] dddd [at] LT",
+    nextWeek: "dddd [at] LT",
+    sameElse: "L",
+  };
+
   return isSentByCurrentUser ? (
     <div className={classes.justifyEnd}>
       <div className={classes.wrapper}>
         <div className={classes.body} style={{ alignItems: "flex-end" }}>
           <div className={classes.header}>
-            <span className={classes.time}>{time}</span>
+            <Moment calendar={calendarStrings} className={classes.time}>
+              {time}
+            </Moment>
           </div>
           <Paper classes={{ root: classes.rootDark }}>
             <div className="messageBox backgroundBlue">
@@ -104,7 +116,9 @@ const Message = ({ message: { text, user, color, time }, nickname }) => {
         <div className={classes.body}>
           <div className={classes.header}>
             <span className={classes.sender}>{user}</span>
-            <span className={classes.time}>{time}</span>
+            <Moment calendar={calendarStrings} className={classes.time}>
+              {time}
+            </Moment>
           </div>
           <Paper classes={{ root: classes.rootLight }}>
             {/* <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p> */}
