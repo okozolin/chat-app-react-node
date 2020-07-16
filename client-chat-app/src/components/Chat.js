@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { Container, InputBase, Button } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import Messages from "./Messages";
 import InputMsg from "./InputMsg";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    // height: "100vh",
     backgroundColor: "#9bcac5",
   },
   container: {
@@ -46,7 +46,7 @@ const Chat = ({ location }) => {
     });
 
     socket.emit("join", { nickname, room: "default" }, (error) => {
-      console.log("nickname", nickname);
+      console.log("nickname joined 'join'", nickname);
 
       if (error) {
         alert(error);
@@ -63,7 +63,7 @@ const Chat = ({ location }) => {
   // handling messages in chat
   useEffect(() => {
     socket.on("message", (message) => {
-      setMessages([...messages, message]);
+      setMessages((messages) => [...messages, message]);
     });
   });
 

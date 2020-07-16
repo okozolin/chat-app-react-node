@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Button, Paper, InputBase } from "@material-ui/core";
+import { Button, Paper, InputBase, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +20,32 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     fontSize: 14,
   },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#3bc9e0",
+    height: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#e82c82",
+    color: theme.palette.common.white,
+    marginTop: "15px",
+    fontWeight: 600,
+    boxShadow: "none",
+    "&:hover": {
+      backgroundColor: "coral",
+    },
+  },
+  link: {
+    textDecoration: "none",
+  },
+  title: {
+    color: "#374446",
+    textAlign: "center",
+    padding: "0px 0px 50px 0px",
+  },
 }));
 
 const Join = (props) => {
@@ -27,24 +53,17 @@ const Join = (props) => {
   // const [text, setText] = useState("");
   const [nickname, setNickname] = useState("");
 
-  // // update parent component when nickname set
-  // useEffect(() => {
-  //   if (props.handler) {
-  //     props.handler(nickname);
-  //   }
-  // }, [nickname]);
-
-  // const handleOnClick = (e) => {
-  //   setNickname(text);
-  //   console.log(`${nickname} -- clicked to join the chat`);
-  // };
-
   const handleOnChange = (e) => {
     setNickname(e.target.value);
   };
 
   return (
-    <>
+    <div className={classes.container}>
+      <div>
+        <Typography variant="h4" classes={{ root: classes.title }}>
+          Welcome to Orit's chat app
+        </Typography>
+      </div>
       <Paper className={classes.root}>
         <InputBase
           className={classes.input}
@@ -54,17 +73,15 @@ const Join = (props) => {
         />
       </Paper>
       <Link
+        className={classes.link}
         onClick={(e) => (!nickname ? e.preventDefault() : null)}
         to={`/chat?name=${nickname}`}
       >
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#DA0063", marginTop: "15px" }}
-        >
+        <Button variant="contained" className={classes.button}>
           Join
         </Button>
       </Link>
-    </>
+    </div>
   );
 };
 
