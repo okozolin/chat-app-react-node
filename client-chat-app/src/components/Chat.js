@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#9bcac5",
     // height: "100vh",
   },
+  scroll: {
+    height: "91vh",
+    overflowY: "scroll",
+  },
 }));
 
 let socket;
@@ -80,7 +84,9 @@ const Chat = ({ location }) => {
   return (
     <Container className={classes.wrapper}>
       <Container className={classes.container}>
-        <Messages messages={messages} nickname={nickname} />
+        <div className={classes.scroll}>
+          <Messages messages={messages} nickname={nickname} />
+        </div>
         <InputMsg
           message={message}
           setMessage={setMessage}
