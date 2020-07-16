@@ -48,9 +48,9 @@ const Chat = ({ location }) => {
 
     socket.emit("join", { nickname, room: "default" }, (error) => {
       console.log("nickname joined 'join'", nickname);
-      if (error) {
-        alert(error.error);
-      }
+      // if (error) {
+      //   alert(error.error);
+      // }
     });
 
     //when user disconnects

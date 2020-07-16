@@ -1,6 +1,6 @@
 # Chat App - React, Node, MySql
 
-![Chat app preview](chat-flow.gif)
+![Chat app preview](chat-app.gif)
 
 ## Created by: Orit Kozolin
 
