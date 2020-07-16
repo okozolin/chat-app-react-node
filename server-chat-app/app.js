@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const randomcolor = require("randomcolor");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -31,22 +32,31 @@ app.use("/users", usersRouter);
 io.on("connection", (socket) => {
   // const { id } = socket.client;
   const id = socket.id;
+  const adminColor = "purple";
   console.log(`User connected: ${id}`);
 
   // user joined the chat
   socket.on("join", ({ nickname, room }, callback) => {
     console.log(`just joined : ${id}: ${nickname}`);
-    const { error, user } = addUser({ id, nickname, room });
+    socket.color = randomcolor();
+    const { error, user } = addUser({
+      id,
+      nickname,
+      room,
+      color: socket.color,
+    });
 
     if (error) return callback({ error });
 
-    socket.join(user.room);
-    console.log(`${nickname} - joined room --${user.room}`);
-
+    if (user) {
+      socket.join(user.room);
+      console.log(`${nickname} - joined room --${user.room}`);
+    }
     // welcomes user to the chat
     socket.emit("message", {
       user: "admin",
       text: `${user.nickname}, welcome to the chat.`,
+      color: adminColor,
     });
     console.log(`sending welcome message to ${user.nickname}`);
 
@@ -54,11 +64,11 @@ io.on("connection", (socket) => {
     socket.broadcast.to(user.room).emit("message", {
       user: "admin",
       text: `${user.nickname} has joined!`,
+      color: adminColor,
     });
     console.log(
       `welcome message to everyone that - ${nickname} - joined room --${user.room}`
     );
-
     callback();
   });
 
@@ -67,18 +77,24 @@ io.on("connection", (socket) => {
     console.log("msgSend", user, message);
     if (user) {
       console.log("msgSend --user--message: ", user.nickname, message);
-      io.to(user.room).emit("message", { user: user.nickname, text: message });
+      io.to(user.room).emit("message", {
+        user: user.nickname,
+        text: message,
+        color: user.color,
+      });
     }
     callback();
   });
   socket.on("disconnect", () => {
     const user = removeUser(id);
 
-    console.log("user had left");
-    io.to(user.room).emit("message", {
-      user: "admin",
-      text: `${user.nickname} has left.`,
-    });
+    if (user) {
+      console.log(`${user.nickname} user had left`);
+      io.to(user.room).emit("message", {
+        user: "admin",
+        text: `${user.nickname} has left.`,
+      });
+    }
   });
 });
 

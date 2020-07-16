@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     color: theme.palette.common.white,
-    backgroundColor: "purple",
   },
   wrapper: {
     display: "flex",
@@ -69,11 +68,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = ({ message: { text, user }, nickname }) => {
+const Message = ({ message: { text, user, color }, nickname }) => {
   const classes = useStyles();
   let isSentByCurrentUser = false;
 
   const trimmedName = nickname.trim().toLowerCase();
+  const firstLetter = user.charAt(0).toUpperCase();
 
   if (user === trimmedName) {
     isSentByCurrentUser = true;
@@ -98,7 +98,9 @@ const Message = ({ message: { text, user }, nickname }) => {
   ) : (
     <div className={classes.justifyStart}>
       <div className={classes.wrapper}>
-        <Avatar className={classes.avatar}>N</Avatar>
+        <Avatar className={classes.avatar} style={{ backgroundColor: color }}>
+          {firstLetter}
+        </Avatar>
         <div className={classes.body}>
           <div className={classes.header}>
             <span className={classes.sender}>{user}</span>
