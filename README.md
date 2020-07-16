@@ -68,10 +68,6 @@ npm start
 
 - ports
 
-  Client: http://localhost:3000
+  Client: http://localhost:3005
 
   Server: http://localhost:3002
-
-### <b>Production mode</b>
-
-Deployed on Heruko
