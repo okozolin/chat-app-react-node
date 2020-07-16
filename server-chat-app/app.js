@@ -14,7 +14,6 @@ const io = require("socket.io")(server);
 const cors = require("cors");
 
 const { addUser, removeUser, getUser } = require("./helpers/users");
-// const moment = require("moment");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
