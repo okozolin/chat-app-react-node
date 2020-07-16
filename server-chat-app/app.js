@@ -14,6 +14,7 @@ const io = require("socket.io")(server);
 const cors = require("cors");
 
 const { addUser, removeUser, getUser } = require("./helpers/users");
+// const moment = require("moment");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -57,6 +58,7 @@ io.on("connection", (socket) => {
       user: "admin",
       text: `${user.nickname}, welcome to the chat.`,
       color: adminColor,
+      time: new Date(),
     });
     console.log(`sending welcome message to ${user.nickname}`);
 
@@ -65,6 +67,7 @@ io.on("connection", (socket) => {
       user: "admin",
       text: `${user.nickname} has joined!`,
       color: adminColor,
+      time: new Date(),
     });
     console.log(
       `welcome message to everyone that - ${nickname} - joined room --${user.room}`
@@ -81,6 +84,7 @@ io.on("connection", (socket) => {
         user: user.nickname,
         text: message,
         color: user.color,
+        time: new Date(),
       });
     }
     callback();
@@ -93,6 +97,8 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("message", {
         user: "admin",
         text: `${user.nickname} has left.`,
+        color: adminColor,
+        time: new Date(),
       });
     }
   });
@@ -116,5 +122,20 @@ app.use(function (err, req, res, next) {
 
 const PORT = process.env.PORT || 3002;
 server.listen(PORT, () => console.log(`Server listen on *: ${PORT}`));
+
+// const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
+// OR:
+// const sequelize = new Sequelize('database', 'username', 'password', {
+//   host: 'localhost',
+//   dialect: 'mysql'
+// });
+
+// try {
+//   await sequelize.authenticate();
+//   server.listen(PORT, () => console.log(`Server listen on *: ${PORT}`));
+//   console.log('Connection has been established successfully.');
+// } catch (error) {
+//   console.error('Unable to connect to the database:', error);
+// }
 
 module.exports = app;

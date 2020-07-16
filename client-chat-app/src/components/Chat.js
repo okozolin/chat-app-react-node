@@ -51,7 +51,6 @@ const Chat = ({ location }) => {
 
     socket.emit("join", { nickname, room: "default" }, (error) => {
       console.log("nickname joined 'join'", nickname);
-
       if (error) {
         alert(error);
       }
@@ -66,17 +65,20 @@ const Chat = ({ location }) => {
 
   // handling messages in chat
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages((messages) => [...messages, message]);
+    if (!socket) {
+      return;
+    }
+    socket.on("message", (msg) => {
+      setMessages((messages) => [...messages, msg]);
     });
-  });
+    console.log("inside useEffect- messages: ", messages);
+  }, [socket]);
 
   const handleMessageSubmit = (e) => {
     e.preventDefault();
     console.log("inside handleMessageSubmit message", message);
-
     if (message) {
-      console.log("inside handleMessageSubmit ");
+      console.log("inside handleMessageSubmit ", message);
       socket.emit("msgSend", message, () => setMessage(""));
     }
   };

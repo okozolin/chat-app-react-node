@@ -1,6 +1,6 @@
 const users = [];
 
-const addUser = ({ id, nickname, room }) => {
+const addUser = ({ id, nickname, room, color }) => {
   nickname = nickname ? nickname.trim().toLowerCase() : null;
 
   const existingUser = users.find(
@@ -11,7 +11,7 @@ const addUser = ({ id, nickname, room }) => {
     return { error: "Nickname already taken" };
   }
 
-  const user = { id, nickname, room };
+  const user = { id, nickname, room, color };
   users.push(user);
   console.log("{user}", { user });
   return { user };

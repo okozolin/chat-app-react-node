@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     boxShadow: "none",
     color: "white",
-    padding: "5px 20px",
+    padding: "0px 20px",
     maxWidth: "80%",
     wordBreak: "break-word",
     whiteSpace: "pre-wrap",
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     boxShadow: "none",
     color: "black",
-    padding: "5px 20px",
+    padding: "0px 20px",
     maxWidth: "80%",
     wordBreak: "break-word",
     whiteSpace: "pre-wrap",
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Message = ({ message: { text, user, color }, nickname }) => {
+const Message = ({ message: { text, user, color, time }, nickname }) => {
   const classes = useStyles();
   let isSentByCurrentUser = false;
 
@@ -82,9 +82,9 @@ const Message = ({ message: { text, user, color }, nickname }) => {
   return isSentByCurrentUser ? (
     <div className={classes.justifyEnd}>
       <div className={classes.wrapper}>
-        <div className={classes.body}>
+        <div className={classes.body} style={{ alignItems: "flex-end" }}>
           <div className={classes.header}>
-            <span className={classes.time}>time</span>
+            <span className={classes.time}>{time}</span>
           </div>
           <Paper classes={{ root: classes.rootDark }}>
             <div className="messageBox backgroundBlue">
@@ -104,7 +104,7 @@ const Message = ({ message: { text, user, color }, nickname }) => {
         <div className={classes.body}>
           <div className={classes.header}>
             <span className={classes.sender}>{user}</span>
-            <span className={classes.time}>time</span>
+            <span className={classes.time}>{time}</span>
           </div>
           <Paper classes={{ root: classes.rootLight }}>
             {/* <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p> */}
