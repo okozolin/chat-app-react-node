@@ -8,7 +8,7 @@
 
 ## App Functional requirenments
 
-<U>Basic functionality </U>
+#### Basic functionality
 
 A public chat room where users log in with a nickname and go straight to the chat. They will:
 
@@ -18,12 +18,20 @@ A public chat room where users log in with a nickname and go straight to the cha
 
 ● each user would have an random colored avatar by his message in the chat.
 
-<U>UX/UI </U>
+#### UX/UI
 
 ● The design should be responsive and fill the
 available screen space (i.e. stretched layout not boxed layout).
 
 ● Use Material/Bootstrap
+
+#### Future implementation 
+
+● see the last 10 messages (prior to the connection / entering the public chat room)
+
+● Connect to MySql DB
+
+● Deploy to production server
 
 ## Flow Design
 
@@ -43,7 +51,7 @@ Take a closer look
 
 ## Getting Started
 
-### <b>Development mode</b>
+### Development mode
 
 ```bash
 cd server-chat-app
