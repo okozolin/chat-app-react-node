@@ -14,8 +14,6 @@ A public chat room where users log in with a nickname and go straight to the cha
 
 ● send messages to the public chat room
 
-● see the last 10 messages (prior to the connection / entering the public chat room)
-
 ● receive new messages in the public chat room while connected
 
 ● each user would have an random colored avatar by his message in the chat.
